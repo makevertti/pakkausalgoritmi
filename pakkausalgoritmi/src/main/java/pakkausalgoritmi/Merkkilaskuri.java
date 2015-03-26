@@ -7,9 +7,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+/**
+ * Toimii apuna pakkausoperaatiossa. 
+ * Laskee merkkien määrät lähdetiedostossa.
+ */
 public class Merkkilaskuri {
     private int[] merkkimaarat;
     private BufferedReader lukija;
@@ -18,6 +20,13 @@ public class Merkkilaskuri {
         merkkimaarat = new int[256];
     }
     
+    /**
+     * Laskee kuinka monta kertaa jokainen merkki
+     * esiintyy pakattavassa tiedostossa.
+     * 
+     * @param tiedosto  Pakattava tiedosto
+     * @return          Merkkimäärät sisältävä taulukko
+     */
     public int[] laskeMerkkienMaarat(File tiedosto) {
         try {
             lukija = new BufferedReader(new InputStreamReader(new FileInputStream(tiedosto)));
