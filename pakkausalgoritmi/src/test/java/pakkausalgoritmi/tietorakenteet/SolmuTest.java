@@ -22,16 +22,16 @@ public class SolmuTest {
     public void solmuLuodaanOikein1() {
         assertEquals(125, solmu1.getMerkki());
         assertEquals(25, solmu1.getMaara());
-        assertEquals(null, solmu1.getOikea());
         assertEquals(null, solmu1.getVasen());
+        assertEquals(null, solmu1.getOikea());
     }
     
     @Test
     public void solmuLuodaanOikein2() {
         assertEquals(-1, solmu3.getMerkki());
         assertEquals(27, solmu3.getMaara());
-        assertEquals(solmu1, solmu3.getOikea());
-        assertEquals(solmu2, solmu3.getVasen());
+        assertEquals(solmu1, solmu3.getVasen());
+        assertEquals(solmu2, solmu3.getOikea());
     }
 
     @Test

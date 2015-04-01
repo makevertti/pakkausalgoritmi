@@ -10,6 +10,6 @@ public class PakkaajaTest {
     
     @Before
     public void setUp() {
-        this.pakkaaja = new Pakkaaja();
+        
     }
 }

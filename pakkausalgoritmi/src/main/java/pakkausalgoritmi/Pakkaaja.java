@@ -14,55 +14,56 @@ import pakkausalgoritmi.tietorakenteet.Solmu;
  * Tiedostojen pakkaamisesta vastuussa oleva luokka.
  */
 public class Pakkaaja {
-    private File pakattavaTiedosto;
+    private File tiedosto;
     private Merkkilaskuri merkkilaskuri;
     private int[] merkkimaarat;
     private BufferedReader lukija;
-    private BittiKirjoitin bittiKirjoitin;
+    private Bittikirjoitin bittikirjoitin;
     private String[] koodit;
     
     /**
-     * Parametrina annetaan tiedosto joka halutaan pakata.
      * 
-     * @param pakattavaTiedosto
+     * @param pakattavaTiedosto Tiedosto mikä halutaan pakata
+     * @param kirjoitettavaTiedosto Tiedosto mihin pakattu data kirjoitetaan
      */
-    public Pakkaaja() {
+    public Pakkaaja(File pakattavaTiedosto, File kirjoitettavaTiedosto) {
+        this.tiedosto = pakattavaTiedosto;
         this.merkkilaskuri = new Merkkilaskuri();
-        this.bittiKirjoitin = new BittiKirjoitin(new File("pakattuTiedosto"));
-        this.koodit = new String[256];
+        this.bittikirjoitin = new Bittikirjoitin(kirjoitettavaTiedosto);
+        this.koodit = new String[257];
     }
 
     /**
      * Pakkausmetodi
      */
-    public void pakkaa(File pakattavaTiedosto) {
-        this.pakattavaTiedosto = pakattavaTiedosto;
+    public void pakkaa() {
         try {
-            this.lukija = new BufferedReader(new InputStreamReader(new FileInputStream(pakattavaTiedosto)));
+            this.lukija = new BufferedReader(new InputStreamReader(new FileInputStream(this.tiedosto)));
         } catch (FileNotFoundException ex) {
             System.err.println("Tiedoston lukemisessa tapahtui virhe: " + ex);
         }
-        merkkimaarat = merkkilaskuri.laskeMerkkienMaarat(pakattavaTiedosto);
-        Solmu puu = rakennaMerkkipuu();
-        muodostaKoodit(koodit, (Solmu) puu, "");
+        merkkimaarat = merkkilaskuri.laskeMerkkienMaarat(this.tiedosto);
+        Solmu puu = rakennaMerkkipuu(); 
+        muodostaKoodit(koodit, puu, "");     
         kirjoitaPuuTiedostoon(puu);
-        kirjoitaPakattuTiedosto(pakattavaTiedosto);
-        bittiKirjoitin.sulje();
+        kirjoitaPakattuTiedosto();
     }
 
     private Solmu rakennaMerkkipuu() {
-        PriorityQueue<Solmu> priorityQueue = new PriorityQueue<Solmu>();
+        PriorityQueue<Solmu> priorityQueue = new PriorityQueue<>();
         for (int i = 0; i < merkkimaarat.length; i++) {
             if (merkkimaarat[i] != 0) {
                 priorityQueue.add(new Solmu(i, merkkimaarat[i], null, null));
             }
         }
+        
+        priorityQueue.add(new Solmu(256, 1, null, null));
 
         while (priorityQueue.size() > 1) {
-            Solmu oikea = priorityQueue.poll();
             Solmu vasen = priorityQueue.poll();
+            Solmu oikea = priorityQueue.poll();
 
-            priorityQueue.add(new Solmu(-1, oikea.getMaara() + vasen.getMaara(), oikea, vasen));
+            priorityQueue.add(new Solmu(-1, vasen.getMaara() + oikea.getMaara(), vasen, oikea));
         }
 
         return priorityQueue.poll();
@@ -70,28 +71,38 @@ public class Pakkaaja {
 
     private void muodostaKoodit(String[] koodit, Solmu solmu, String koodi) {
         if (!solmu.onLehti()) {
-            muodostaKoodit(koodit, solmu.getOikea(), koodi + '1');
-            muodostaKoodit(koodit, solmu.getVasen(), koodi + '0');                
+            muodostaKoodit(koodit, solmu.getVasen(), koodi + '0'); 
+            muodostaKoodit(koodit, solmu.getOikea(), koodi + '1');               
         } else {
             koodit[solmu.getMerkki()] = koodi;
         }
     }
-
+    
     private void kirjoitaPuuTiedostoon(Solmu puu) {
         if (puu.onLehti()) {
-            bittiKirjoitin.kirjoitaBitti(1);
+            bittikirjoitin.kirjoitaBitti(1);
             String merkkiBitteina = Integer.toBinaryString(puu.getMerkki());
+            
+            //Tasaa solmujen bittiesityksen saman pituisiksi
+            for (int i = 9 - merkkiBitteina.length(); i > 0; i--) {
+                bittikirjoitin.kirjoitaBitti(0);
+            }
+            
             for (int i = 0; i < merkkiBitteina.length(); i++) {
-                bittiKirjoitin.kirjoitaBitti(merkkiBitteina.charAt(i));
+                if (merkkiBitteina.charAt(i) == '1') {
+                    bittikirjoitin.kirjoitaBitti(1);
+                } else {
+                    bittikirjoitin.kirjoitaBitti(0);
+                }
             }
         } else {
-            bittiKirjoitin.kirjoitaBitti(0);
+            bittikirjoitin.kirjoitaBitti(0);
             kirjoitaPuuTiedostoon(puu.getVasen());
             kirjoitaPuuTiedostoon(puu.getOikea());
         }
     }
 
-    private void kirjoitaPakattuTiedosto(File tiedosto) {
+    private void kirjoitaPakattuTiedosto() {
         while(true) {
             int merkki = 0;
             try {
@@ -104,8 +115,21 @@ public class Pakkaaja {
             }
             String merkkikoodi = koodit[merkki];
             for (int i = 0; i < merkkikoodi.length(); i++) {
-                bittiKirjoitin.kirjoitaBitti(merkkikoodi.charAt(i));
+                if (merkkikoodi.charAt(i) == '1') {
+                    bittikirjoitin.kirjoitaBitti(1);
+                } else {
+                    bittikirjoitin.kirjoitaBitti(0);
+                }
             }
         }
+        String loppumerkki = koodit[256];
+        for (int i = 0; i < loppumerkki.length(); i++) {
+            if (loppumerkki.charAt(i) == '1') {
+                bittikirjoitin.kirjoitaBitti(1);
+            } else {
+                bittikirjoitin.kirjoitaBitti(0);
+            }
+        }
+        bittikirjoitin.sulje();
     }
 }

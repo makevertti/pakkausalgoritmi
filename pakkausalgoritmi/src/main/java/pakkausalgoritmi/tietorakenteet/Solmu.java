@@ -7,23 +7,21 @@ package pakkausalgoritmi.tietorakenteet;
 public class Solmu implements Comparable<Solmu> {
     private int merkki;
     private int maara;
-    private Solmu oikea;
     private Solmu vasen;
-    private boolean onLehti;
+    private Solmu oikea;
     
     /**
      *
      * @param merkki    Merkki jota solmu kuvaa, -1 jos ei lehti.
      * @param maara     Merkin esiintymismäärä.
-     * @param oikea     Solmun oikea lapsi
      * @param vasen     Solmun vasen lapsi
+     * @param oikea     Solmun oikea lapsi
      */
-    public Solmu(int merkki, int maara, Solmu oikea, Solmu vasen) {
+    public Solmu(int merkki, int maara, Solmu vasen, Solmu oikea) {
         this.merkki = merkki;
         this.maara = maara;
-        this.oikea = oikea;
         this.vasen = vasen;
-        this.onLehti = (this.oikea == null && this.vasen == null);
+        this.oikea = oikea;
     }
 
     @Override
@@ -44,15 +42,15 @@ public class Solmu implements Comparable<Solmu> {
         return this.maara;
     }
     
-    public Solmu getOikea() {
-        return this.oikea;
-    }
-    
     public Solmu getVasen() {
         return this.vasen;
     }
     
+    public Solmu getOikea() {
+        return this.oikea;
+    }
+    
     public boolean onLehti() {
-        return onLehti;
+        return this.vasen == null && this.oikea == null;
     }
 }

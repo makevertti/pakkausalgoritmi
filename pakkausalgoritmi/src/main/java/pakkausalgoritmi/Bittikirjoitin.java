@@ -11,13 +11,12 @@ import java.io.IOException;
  * Luokka jonka avulla on mahdollista
  * kirjoittaa tiedostoon bittejä
  */
-public class BittiKirjoitin {
-    private File tiedosto;
+public class Bittikirjoitin {
     private BufferedOutputStream kirjoitin;
     private int tavu;
     private int tavuunKirjoitettu;
     
-    public BittiKirjoitin(File tiedosto) {
+    public Bittikirjoitin(File tiedosto) {
         try {
             this.kirjoitin = new BufferedOutputStream(new FileOutputStream(tiedosto));
         } catch (FileNotFoundException ex) {
@@ -30,9 +29,12 @@ public class BittiKirjoitin {
     /**
      * Kirjoittaa parametrina annetun bitin tiedostoon.
      * 
-     * @param bitti Kirjoitettava bitti. 1 tai 0
+     * @param bitti Kirjoitettava bitti. 0 tai 1
      */
     public void kirjoitaBitti(int bitti) {
+        if (bitti != 0 && bitti != 1) {
+            throw new IllegalArgumentException("Bitin oltava 0 tai 1");
+        }
         tavu = tavu << 1 | bitti;
         tavuunKirjoitettu++;
         if (tavuunKirjoitettu == 8) {

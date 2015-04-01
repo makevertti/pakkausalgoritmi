@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class BittiKirjoitinTest {
+public class BittikirjoitinTest {
      
     @Before
     public void setUp() {
