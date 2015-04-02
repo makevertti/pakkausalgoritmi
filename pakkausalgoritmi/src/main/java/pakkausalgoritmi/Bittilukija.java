@@ -7,11 +7,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Luokka joka pystyy lukemaan tiedostosta 
+ * dataa bitti kerrallaan
+ */
 public class Bittilukija {
     private BufferedInputStream lukija;
     private int bittipuskuri;
     private int bittejaPuskurissa;
     
+    /**
+     * 
+     * @param tiedosto  Luettava tiedosto 
+     */
     public Bittilukija(File tiedosto) {
         try {
             this.lukija = new BufferedInputStream(new FileInputStream(tiedosto));
@@ -22,6 +30,11 @@ public class Bittilukija {
         this.bittejaPuskurissa = 0;
     }
     
+    /**
+     * Lukee yhden bitin
+     * 
+     * @return bitti; 0 tai 1 
+     */
     public int lueBitti() {
         if (bittejaPuskurissa == 0) {
             lueTavu();

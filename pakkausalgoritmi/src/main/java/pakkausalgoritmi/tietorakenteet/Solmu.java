@@ -29,11 +29,6 @@ public class Solmu implements Comparable<Solmu> {
         return this.maara - toinen.maara;
     }
     
-    @Override
-    public String toString() {
-        return (char)this.merkki + ": " + this.maara;
-    }
-    
     public int getMerkki() {
         return this.merkki;
     }

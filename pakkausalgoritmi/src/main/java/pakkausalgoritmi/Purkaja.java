@@ -8,20 +8,23 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import pakkausalgoritmi.tietorakenteet.Solmu;
 
+/**
+ * Tiedostojen purkamisen hoitava luokka
+ */
 public class Purkaja {
-
-    private File purettavaTiedosto;
     private File kirjoitettavaTiedosto;
     private Bittilukija bittilukija;
-    private int[] koodit;
     private BufferedWriter kirjoitin;
     private Solmu alkuperainenPuu;
-
+    
+    /**
+     * 
+     * @param purettavaTiedosto     Tiedosto joka halutaan purkaa
+     * @param kirjoitettavaTiedosto Tiedosto johon purettu data kirjoitetaan
+     */
     public Purkaja(File purettavaTiedosto, File kirjoitettavaTiedosto) {
-        this.purettavaTiedosto = purettavaTiedosto;
         this.kirjoitettavaTiedosto = kirjoitettavaTiedosto;
         this.bittilukija = new Bittilukija(purettavaTiedosto);
-        this.koodit = new int[256];
         try {
             this.kirjoitin = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.kirjoitettavaTiedosto)));
         } catch (FileNotFoundException ex) {
@@ -29,18 +32,16 @@ public class Purkaja {
         }
     }
 
+    /**
+     * Purkumetodi
+     */
     public void pura() {
-        Solmu puu = uudelleenrakennaMerkkipuu();
+        Solmu puu = uudelleenrakennaMerkkipuu(new Solmu(0, 0, null, null));
         this.alkuperainenPuu = puu;
         kirjoitaPurettuTiedosto(puu);
     }
 
-    private Solmu uudelleenrakennaMerkkipuu() {
-        Solmu puu = rakenna(new Solmu(0, 0, null, null));
-        return puu;
-    }
-
-    private Solmu rakenna(Solmu solmu) {
+    private Solmu uudelleenrakennaMerkkipuu(Solmu solmu) {
         if (bittilukija.lueBitti() == 1) {
             int solmunMerkki = 0;
             for (int i = 0; i < 9; i++) {
@@ -48,8 +49,8 @@ public class Purkaja {
             }
             return new Solmu(solmunMerkki, 1, null, null);
         } else {
-            Solmu vasen = rakenna(new Solmu(-1, 1, null, null));
-            Solmu oikea = rakenna(new Solmu(-1, 1, null, null));
+            Solmu vasen = uudelleenrakennaMerkkipuu(new Solmu(-1, 1, null, null));
+            Solmu oikea = uudelleenrakennaMerkkipuu(new Solmu(-1, 1, null, null));
             return new Solmu(-1, 1, vasen, oikea);
         }
     }

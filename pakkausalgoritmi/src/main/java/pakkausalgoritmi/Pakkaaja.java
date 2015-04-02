@@ -23,7 +23,7 @@ public class Pakkaaja {
     
     /**
      * 
-     * @param pakattavaTiedosto Tiedosto mikä halutaan pakata
+     * @param pakattavaTiedosto     Pakattava tiedosto
      * @param kirjoitettavaTiedosto Tiedosto mihin pakattu data kirjoitetaan
      */
     public Pakkaaja(File pakattavaTiedosto, File kirjoitettavaTiedosto) {
@@ -57,6 +57,7 @@ public class Pakkaaja {
             }
         }
         
+        //Tekee solmun merkille jonka avulla purkaja tietää milloin koko tiedosto on purettu
         priorityQueue.add(new Solmu(256, 1, null, null));
 
         while (priorityQueue.size() > 1) {
@@ -122,6 +123,8 @@ public class Pakkaaja {
                 }
             }
         }
+        
+        //Kirjoittaa tiedoston loppuun loppumerkin
         String loppumerkki = koodit[256];
         for (int i = 0; i < loppumerkki.length(); i++) {
             if (loppumerkki.charAt(i) == '1') {
