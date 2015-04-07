@@ -9,7 +9,7 @@ public class Solmu implements Comparable<Solmu> {
     private int maara;
     private Solmu vasen;
     private Solmu oikea;
-    
+
     /**
      *
      * @param merkki    Merkki jota solmu kuvaa, -1 jos ei lehti.
@@ -26,26 +26,26 @@ public class Solmu implements Comparable<Solmu> {
 
     @Override
     public int compareTo(Solmu toinen) {
-        return this.maara - toinen.maara;
+        return maara - toinen.maara;
     }
     
     public int getMerkki() {
-        return this.merkki;
+        return merkki;
     }
     
     public int getMaara() {
-        return this.maara;
+        return maara;
     }
     
     public Solmu getVasen() {
-        return this.vasen;
+        return vasen;
     }
     
     public Solmu getOikea() {
-        return this.oikea;
+        return oikea;
     }
     
     public boolean onLehti() {
-        return this.vasen == null && this.oikea == null;
+        return vasen == null && oikea == null;
     }
 }

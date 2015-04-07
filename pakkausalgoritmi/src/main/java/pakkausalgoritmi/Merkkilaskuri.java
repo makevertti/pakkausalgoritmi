@@ -17,7 +17,7 @@ public class Merkkilaskuri {
     private BufferedReader lukija;
     
     public Merkkilaskuri() {
-        merkkimaarat = new int[256];
+        this.merkkimaarat = new int[256];
     }
     
     /**

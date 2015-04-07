@@ -7,7 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
+
+import pakkausalgoritmi.tietorakenteet.Keko;
 import pakkausalgoritmi.tietorakenteet.Solmu;
 
 /**
@@ -31,43 +32,43 @@ public class Pakkaaja {
         this.merkkilaskuri = new Merkkilaskuri();
         this.bittikirjoitin = new Bittikirjoitin(kirjoitettavaTiedosto);
         this.koodit = new String[257];
+        try {
+            lukija = new BufferedReader(new InputStreamReader(new FileInputStream(this.tiedosto)));
+        } catch (FileNotFoundException ex) {
+            System.err.println("Tiedoston lukemisessa tapahtui virhe: " + ex);
+        }
     }
 
     /**
      * Pakkausmetodi
      */
     public void pakkaa() {
-        try {
-            this.lukija = new BufferedReader(new InputStreamReader(new FileInputStream(this.tiedosto)));
-        } catch (FileNotFoundException ex) {
-            System.err.println("Tiedoston lukemisessa tapahtui virhe: " + ex);
-        }
-        merkkimaarat = merkkilaskuri.laskeMerkkienMaarat(this.tiedosto);
+        merkkimaarat = merkkilaskuri.laskeMerkkienMaarat(tiedosto);
         Solmu puu = rakennaMerkkipuu(); 
-        muodostaKoodit(koodit, puu, "");     
+        muodostaKoodit(koodit, puu, "");
         kirjoitaPuuTiedostoon(puu);
         kirjoitaPakattuTiedosto();
     }
 
     private Solmu rakennaMerkkipuu() {
-        PriorityQueue<Solmu> priorityQueue = new PriorityQueue<>();
+        Keko keko = new Keko(merkkimaarat.length / 2);
         for (int i = 0; i < merkkimaarat.length; i++) {
             if (merkkimaarat[i] != 0) {
-                priorityQueue.add(new Solmu(i, merkkimaarat[i], null, null));
+                keko.lisaa(new Solmu(i, merkkimaarat[i], null, null));
             }
         }
-        
+
         //Tekee solmun merkille jonka avulla purkaja tietää milloin koko tiedosto on purettu
-        priorityQueue.add(new Solmu(256, 1, null, null));
+        keko.lisaa(new Solmu(256, 1, null, null));
 
-        while (priorityQueue.size() > 1) {
-            Solmu vasen = priorityQueue.poll();
-            Solmu oikea = priorityQueue.poll();
+        while (keko.getKoko() > 1) {
+            Solmu vasen = keko.haePienin();
+            Solmu oikea = keko.haePienin();
 
-            priorityQueue.add(new Solmu(-1, vasen.getMaara() + oikea.getMaara(), vasen, oikea));
+            keko.lisaa(new Solmu(-1, vasen.getMaara() + oikea.getMaara(), vasen, oikea));
         }
 
-        return priorityQueue.poll();
+        return keko.haePienin();
     }
 
     private void muodostaKoodit(String[] koodit, Solmu solmu, String koodi) {
