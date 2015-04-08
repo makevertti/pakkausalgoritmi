@@ -19,11 +19,11 @@ public class BittikirjoitinJaLukijaTest {
     public void setUp() {
         try {
             this.testitiedosto = File.createTempFile("testitiedosto", "", new File("/"));
-            this.bittikirjoitin = new Bittikirjoitin(this.testitiedosto);
-            this.bittilukija = new Bittilukija(this.testitiedosto);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.bittikirjoitin = new Bittikirjoitin(this.testitiedosto);
+        this.bittilukija = new Bittilukija(this.testitiedosto);
     }
 
     @After
