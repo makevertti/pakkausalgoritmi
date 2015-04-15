@@ -17,7 +17,9 @@ public class Bittilukija {
     private int bittejaPuskurissa;
     
     /**
-     * 
+     * Luo uuden bittilukijan joka lukee
+     * annettua tiedostoa
+     *
      * @param tiedosto  Luettava tiedosto 
      */
     public Bittilukija(File tiedosto) {
@@ -54,7 +56,10 @@ public class Bittilukija {
         }
         bittejaPuskurissa = 8; 
     }
-    
+
+    /**
+     * Sulkee bittilukijan
+     */
     public void sulje() {
         try {
             lukija.close();

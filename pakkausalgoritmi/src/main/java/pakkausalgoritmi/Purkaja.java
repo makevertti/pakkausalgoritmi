@@ -18,7 +18,8 @@ public class Purkaja {
     private Solmu alkuperainenPuu;
     
     /**
-     * 
+     * Luo uuden purkajan joka käsittelee annettuja tiedostoja
+     *
      * @param purettavaTiedosto     Tiedosto joka halutaan purkaa
      * @param kirjoitettavaTiedosto Tiedosto johon purettu data kirjoitetaan
      */
@@ -36,12 +37,12 @@ public class Purkaja {
      * Purkumetodi
      */
     public void pura() {
-        Solmu puu = uudelleenrakennaMerkkipuu(new Solmu(0, 0, null, null));
+        Solmu puu = uudelleenrakennaMerkkipuu();
         this.alkuperainenPuu = puu;
         kirjoitaPurettuTiedosto(puu);
     }
 
-    private Solmu uudelleenrakennaMerkkipuu(Solmu solmu) {
+    private Solmu uudelleenrakennaMerkkipuu() {
         if (bittilukija.lueBitti() == 1) {
             int solmunMerkki = 0;
             for (int i = 0; i < 9; i++) {
@@ -49,8 +50,8 @@ public class Purkaja {
             }
             return new Solmu(solmunMerkki, 1, null, null);
         } else {
-            Solmu vasen = uudelleenrakennaMerkkipuu(new Solmu(-1, 1, null, null));
-            Solmu oikea = uudelleenrakennaMerkkipuu(new Solmu(-1, 1, null, null));
+            Solmu vasen = uudelleenrakennaMerkkipuu();
+            Solmu oikea = uudelleenrakennaMerkkipuu();
             return new Solmu(-1, 1, vasen, oikea);
         }
     }

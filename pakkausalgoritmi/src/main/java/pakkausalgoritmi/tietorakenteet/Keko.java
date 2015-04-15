@@ -9,6 +9,7 @@ public class Keko {
     private int koko;
 
     /**
+     * Luo keon annetulla maksimikoolla
      *
      * @param maksimikoko Keon maksimikoko
      */
@@ -77,6 +78,11 @@ public class Keko {
         return indeksi >= (koko / 2) && indeksi <= koko;
     }
 
+    /**
+     * Hakee keon hetkellisen koon
+     *
+     * @return Keon koko
+     */
     public int getKoko() {
         return koko;
     }

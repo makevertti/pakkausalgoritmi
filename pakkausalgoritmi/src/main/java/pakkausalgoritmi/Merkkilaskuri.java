@@ -15,7 +15,10 @@ import java.io.InputStreamReader;
 public class Merkkilaskuri {
     private int[] merkkimaarat;
     private BufferedReader lukija;
-    
+
+    /**
+     * Luo uuden merkkilaskurin
+     */
     public Merkkilaskuri() {
         this.merkkimaarat = new int[256];
     }

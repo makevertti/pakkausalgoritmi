@@ -23,7 +23,8 @@ public class Pakkaaja {
     private String[] koodit;
     
     /**
-     * 
+     * Luo uuden pakkaajan joka käsittelee annettuja tiedostoja
+     *
      * @param pakattavaTiedosto     Pakattava tiedosto
      * @param kirjoitettavaTiedosto Tiedosto mihin pakattu data kirjoitetaan
      */

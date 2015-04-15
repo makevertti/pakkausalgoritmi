@@ -15,7 +15,13 @@ public class Bittikirjoitin {
     private BufferedOutputStream kirjoitin;
     private int tavu;
     private int tavuunKirjoitettu;
-    
+
+    /**
+     * Luo uuden bittikirjoittimen joka kirjoittaa
+     * annettuun tiedostoon
+     *
+     * @param tiedosto Tiedosto johon kirjoitetaan
+     */
     public Bittikirjoitin(File tiedosto) {
         try {
             this.kirjoitin = new BufferedOutputStream(new FileOutputStream(tiedosto));
