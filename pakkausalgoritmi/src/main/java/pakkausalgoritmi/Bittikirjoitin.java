@@ -54,9 +54,9 @@ public class Bittikirjoitin {
     }
     
     /**
-     * Sulkee BittiKirjoittimen. Jos kirjoitettujen bittien
+     * Sulkee bittikirjoittimen. Jos kirjoitettujen bittien
      * määrä ei täytä tavua lisätään tarvitta määrä 
-     * nollia, jotta tavun kirjoitus onnistuu.
+     * nollia jotta tavun kirjoitus onnistuu.
      */
     public void sulje() {
         while (tavuunKirjoitettu != 0) {            

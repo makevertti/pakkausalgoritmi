@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        /*
         long alku;
         long loppu;
 
@@ -20,43 +21,50 @@ public class Main {
         purkaja.pura();
         loppu = System.nanoTime();
         System.out.println("Purku: " + (loppu - alku) / 1000000 + "ms");
+        */
 
-        /*
         if (args.length == 0) {
             Scanner lukija = new Scanner(System.in);
 
+            lopeta:
             while (true) {
                 System.out.print("1: Pakkaa \n2: Pura \n3: Lopeta \n>");
                 String syote = lukija.nextLine();
 
                 System.out.println();
 
-                if (syote.equals("1")) {
-                    System.out.print("Pakattava tiedosto: \n>");
-                    String pakattavaTiedosto = lukija.nextLine();
+                switch (syote) {
+                    case "1": {
+                        System.out.print("Pakattava tiedosto: \n>");
+                        String pakattavaTiedosto = lukija.nextLine();
 
-                    System.out.print("Kirjoitettava tiedosto: \n>");
-                    String kirjoitettavaTiedosto = lukija.nextLine();
+                        System.out.print("Kirjoitettava tiedosto: \n>");
+                        String kirjoitettavaTiedosto = lukija.nextLine();
 
-                    Pakkaaja pakkaaja = new Pakkaaja(new File(pakattavaTiedosto), new File(kirjoitettavaTiedosto));
-                    pakkaaja.pakkaa();
-                    System.out.println("-Tiedosto pakattu-");
-                } else if (syote.equals("2")) {
-                    System.out.print("Purettava tiedosto: \n>");
-                    String purettavaTIedosto = lukija.nextLine();
-                    System.out.println();
+                        Pakkaaja pakkaaja = new Pakkaaja(new File(pakattavaTiedosto), new File(kirjoitettavaTiedosto));
+                        pakkaaja.pakkaa();
+                        System.out.println("-Tiedosto pakattu-");
+                        break;
+                    }
+                    case "2": {
+                        System.out.print("Purettava tiedosto: \n>");
+                        String purettavaTIedosto = lukija.nextLine();
+                        System.out.println();
 
-                    System.out.print("Kirjoitettava tiedosto: \n>");
-                    String kirjoitettavaTiedosto = lukija.nextLine();
-                    System.out.println();
+                        System.out.print("Kirjoitettava tiedosto: \n>");
+                        String kirjoitettavaTiedosto = lukija.nextLine();
+                        System.out.println();
 
-                    Purkaja purkaja = new Purkaja(new File(purettavaTIedosto), new File(kirjoitettavaTiedosto));
-                    purkaja.pura();
-                    System.out.println("-Tiedosto purettu-");
-                } else if (syote.equals("3")){
-                    break;
-                } else {
-                    System.out.println("Virheellinen syöte");
+                        Purkaja purkaja = new Purkaja(new File(purettavaTIedosto), new File(kirjoitettavaTiedosto));
+                        purkaja.pura();
+                        System.out.println("-Tiedosto purettu-");
+                        break;
+                    }
+                    case "3":
+                        break lopeta;
+                    default:
+                        System.out.println("Virheellinen syöte");
+                        break;
                 }
                 System.out.println();
             }
@@ -71,6 +79,5 @@ public class Main {
         } else {
             System.out.println("Virheelliset argumentit, käyttö: \njava -jar pakkausalgoritmi.jar [pakkaa | pura] [luettavaTiedosto] [kirjoitettavaTiedosto]");
         }
-        */
     }
 }

@@ -12,7 +12,6 @@ import pakkausalgoritmi.tietorakenteet.Solmu;
  * Tiedostojen purkamisen hoitava luokka
  */
 public class Purkaja {
-    private File kirjoitettavaTiedosto;
     private Bittilukija bittilukija;
     private BufferedWriter kirjoitin;
     private Solmu alkuperainenPuu;
@@ -24,10 +23,9 @@ public class Purkaja {
      * @param kirjoitettavaTiedosto Tiedosto johon purettu data kirjoitetaan
      */
     public Purkaja(File purettavaTiedosto, File kirjoitettavaTiedosto) {
-        this.kirjoitettavaTiedosto = kirjoitettavaTiedosto;
         this.bittilukija = new Bittilukija(purettavaTiedosto);
         try {
-            this.kirjoitin = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.kirjoitettavaTiedosto)));
+            this.kirjoitin = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(kirjoitettavaTiedosto)));
         } catch (FileNotFoundException ex) {
             System.err.println("Tiedoston purkamisessa tapahtui virhe: " + ex);
         }

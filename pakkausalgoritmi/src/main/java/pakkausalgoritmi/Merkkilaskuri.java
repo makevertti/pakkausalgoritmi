@@ -54,7 +54,7 @@ public class Merkkilaskuri {
         try {
             lukija.close();
         } catch (IOException ex) {
-            System.err.println(ex);
+            System.err.println("Tiedoston lukemisessa tapahtui virhe: " + ex);
         }
         
         return merkkimaarat;
